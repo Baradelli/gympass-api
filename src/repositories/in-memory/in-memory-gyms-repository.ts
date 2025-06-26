@@ -22,6 +22,14 @@ export class InMemoryGymsRepository implements GymsRepository {
     return gym
   }
 
+  async searchMany(query: string, page: number) {
+    const lowerCaseQuery = query.toLowerCase()
+
+    return this.gyms
+      .filter((gym) => gym.title.toLowerCase().includes(lowerCaseQuery))
+      .slice((page - 1) * 20, page * 20)
+  }
+
   async findById(id: string): Promise<Gym | null> {
     const gym = this.gyms.find((gym) => gym.id === id)
 
